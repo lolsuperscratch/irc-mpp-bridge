@@ -34,7 +34,7 @@ client.addListener('message#mppbridge', function (from, message) {
     if (message.split(' ')[0] == "mpp!unbridge") {
        var found = false;
        for (var i = 0;i < channelclients.length;i++) {
-        if (message.split(' ').slice(1).join(' ') == channelclients[i].client.channel._id) {
+        if (text.split(' ').slice(1).join(' ') == channelclients[i].client.channel._id) {
             channelclients[i].client.stop()
             client.say(channelclients[i].channel,'Unbridged by '+from)
             found = true;
@@ -52,10 +52,21 @@ client.addListener('join#mppbridge',function(nick,message) {
 })
 client.addListener('message#',function(nick, to, text, message) {
     if (to == "#mppbridge") return;
+    if (text.startsWith('mpp!')) return;
     for (var i = 0;i < channelclients.length;i++) {
         if (to == channelclients[i].channel) {
             channelclients[i].client.say(nick+': '+text)
         }
+    }
+})
+client.addListener('message#',function(nick, to, text, message) {
+    if (text.split(' ')[0] == "mpp!responsecmd") {
+    for (var i = 0;i < channelclients.length;i++) {
+        if (to == channelclients[i].channel) {
+            channelclients[i].client.say(nick)
+            channelclients[i].client.say(text.split(' ').slice(1).join(' '))
+        }
+    }
     }
 })
 client.addListener('invite',function(channel, from, message) {
