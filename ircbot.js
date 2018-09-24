@@ -10,7 +10,7 @@ var xusercommands = [];
 mpp.on('a',function (msg) {
    if (msg.a == "mpp!help") {
        mpp.say('the commands: mpp!join,mpp!createusercmd [name] [respond (use "," for new line)]')
-       if (usercommands > 0) {
+       if (usercommands.length > 0) {
            mpp.say('user commands: '+usercommands.join(','))
        } else {
            mpp.say('user commands: empty')
