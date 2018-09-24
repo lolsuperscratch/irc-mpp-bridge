@@ -5,9 +5,38 @@ setInterval(function () {mpp.setName('IRC Bridge')})
 mpp.setChannel('lobby')
 mpp.start()
 var channelclients = [];
-
+var usercommands = [];
+var xusercommands = [];
+mpp.on('a',function (msg) {
+   if (msg.a == "mpp!help") {
+       mpp.say('the commands: mpp!join,mpp!createusercmd [name] [respond (use "," for new line)]')
+       if (usercommands > 0) {
+           mpp.say('user commands: '+usercommands.join(','))
+       } else {
+           mpp.say('user commands: empty')
+       }
+   }
+   if (msg.a == "mpp!join") {
+       mpp.say('https://kiwiirc.com/client/irc.freenode.net/mppbridge')
+   }
+   if (msg.a.split(' ')[0] == "mpp!createusercmd") {
+       usercommands.push('mpp!'+msg.a.split(' ')[1])
+       xusercommands.push({command:'mpp!'+msg.a.split(' ')[1],respond:msg.a.split(' ').slice(2).join(' ')})
+       mpp.say('test it with mpp!'+msg.a.split(' ')[1])
+   }
+   for (var i = 0;i < xusercommands.length;i++) {
+       if (msg.a == xusercommands[i].command) {
+           if (!xusercommands[i].respond.split(',').length > 0) {mpp.say(xusercommands[i].respond)}
+           for (var j = 0;j < xusercommands[i].respond.split(',').length;j++) {
+               mpp.say(xusercommands[i].respond.split(',')[j])
+           }
+       }
+   }
+})
 var client = new irc.Client('irc.freenode.net', 'mppbridge', {
     channels: ['#mppbridge'],
+    debug: true,
+    showErrors:true
 });
 client.connect()
 client.addListener('message#mppbridge', function (from, message) {
@@ -77,5 +106,5 @@ client.addListener('invite',function(channel, from, message) {
 
 client.addListener('error', function(message) {
     console.log('error: ', message);
-    process.exit()
+    
 });
