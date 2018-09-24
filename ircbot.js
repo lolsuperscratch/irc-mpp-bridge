@@ -7,10 +7,7 @@ mpp.start()
 var channelclients = [{client:mpp,channel:"#mppbridge-lobby"}];
 
 var client = new irc.Client('irc.freenode.net', 'mppbridge', {
-    realName: 'Multiplayer Piano Bridge',
     channels: ['#mppbridge','#mppbridge-lobby'],
-    autoRejoin: true,
-    autoConnect: true
 });
 client.addListener('message#mppbridge', function (from, message) {
     console.log(from + ' => #mppbridge: ' + message);
