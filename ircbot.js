@@ -1,13 +1,13 @@
 var irc = require('irc');
 var Client = require('mpp-client-xt');
 var mpp = new Client();
-setInterval(function () {mpp.setName('[http://kiwiirc.com/client/irc.freenode.net/mppbridge]')})
+setInterval(function () {mpp.setName('IRC Bridge')})
 mpp.setChannel('lobby')
 mpp.start()
-var channelclients = [{client:mpp,channel:"#mppbridge-lobby"}];
+var channelclients = [];
 
 var client = new irc.Client('irc.freenode.net', 'mppbridge', {
-    channels: ['#mppbridge','#mppbridge-lobby'],
+    channels: ['#mppbridge'],
 });
 client.addListener('message#mppbridge', function (from, message) {
     console.log(from + ' => #mppbridge: ' + message);
