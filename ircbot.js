@@ -9,6 +9,7 @@ var channelclients = [];
 var client = new irc.Client('irc.freenode.net', 'mppbridge', {
     channels: ['#mppbridge'],
 });
+client.connect()
 client.addListener('message#mppbridge', function (from, message) {
     console.log(from + ' => #mppbridge: ' + message);
     if (message.split(' ')[0] == "mpp!bridge") {
